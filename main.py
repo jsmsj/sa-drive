@@ -105,7 +105,8 @@ def upload_file(file,parent_folder_id):
     size = stream_bytes.tell()
     del stream_bytes
     sa_numbers = get_free_sa(dbf.get_size_map(),size)
-    sa_number = random.choice(sa_numbers)
+    # sa_number = random.choice(sa_numbers)
+    sa_number = sa_numbers[0]
     drive = SADrive(sa_number)
     worker = Generator(drive.upload_file(file.filename, parent_folder_id,file.stream))
     for prog in worker:
