@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+
+* {
+  font-family: "DM Sans", sans-serif;
+}
+
+.gradient {
+  --bg-size: 400%;
+  --color-one: #12c2e9;
+  --color-two: #c471ed;
+  --color-three: #f64f59;
+  background: linear-gradient(90deg,
+      var(--color-one),
+      var(--color-two),
+      var(--color-three),
+      var(--color-two),
+      var(--color-one)) 0 0 / var(--bg-size) 100%;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: move-bg 15s linear infinite;
+}
+
+@keyframes move-bg {
+  to {
+    background-position: var(--bg-size) 0;
+  }
+}

@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+
+* {
+  font-family: "DM Sans", sans-serif;
+}
+
+.list-group-item:hover {
+    text-decoration: underline;
+    color: rgb(172, 172, 172);
+}
+
+.c-qd {
+    height: 18px;
+    width: 18px;
+}
+
+:root {
+    --ctxMenuFontColor: rgb(183, 183, 183);
+    --ctxMenuHRColor: rgb(100, 100, 100);
+}
+
+#ctxMenu {
+    position: fixed;
+    height: fit-content;
+    min-height: 30px;
+    min-width: 100px;
+    background-color: #131313;
+    z-index: 1000000;
+    box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.13);
+    border-radius: 10px;
+    display: none;
+    /* transition: 0.2s; */
+    padding: 10px 0;
+    color: white;
+    outline: 2px solid rgb(45, 45, 45);
+}
+
+#ctxMenu ul {
+    margin: 0;
+    padding: 0px;
+    height: fit-content;
+    list-style-type: none;
+}
+
+#ctxMenu button {
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 4px 30px;
+    color: var(--ctxMenuFontColor);
+}
+
+#ctxMenu button:hover {
+    background-color: rgb(60, 60, 60);
+}
+
+#ctxMenu hr {
+    margin: 6px 5px;
+    background-color: var(--ctxMenuHRColor) !important;
+    color: var(--ctxMenuHRColor) !important;
+    border: solid 1px var(--ctxMenuHRColor) !important;
+}
