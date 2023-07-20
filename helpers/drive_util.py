@@ -55,7 +55,7 @@ class SADrive:
     def upload_file(self, filename, parent_folder_id,stream_bytes):
         # media = MediaFileUpload('pig.png', mimetype='image/png', resumable=True)
         media = MediaIoBaseUpload(
-            fd=stream_bytes, mimetype="application/octet-stream", resumable=True
+            fd=stream_bytes, mimetype="application/octet-stream", resumable=True,chunksize=256*1024*1024
         )
         request = self._service.files().insert(
             media_body=media,
