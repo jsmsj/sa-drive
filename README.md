@@ -53,7 +53,7 @@ Hence you can effectively get 15\*12\*100 = 18000 GiB of storage, or `roughly 17
 2. You can send pull requests too. [Please do 🙏]
 
 ### TODO
-- [ ] support uploading an entire folder, with subfolders and files
+- [x] support uploading an entire folder, with subfolders and files
 - [ ] drag and grop anywhere to upload
 - [ ] view file (with video player if possible)
 - [ ] share/unshare selected=> navbar

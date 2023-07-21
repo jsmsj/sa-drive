@@ -318,10 +318,70 @@ function generateRandomString(length) {
     return result;
 }
 var drop_area = document.getElementById('drop_area');
-drop_area.addEventListener('drop', function (e) {
+
+async function processItems(items, path) {
+    let fl_ls = [];
+    let file_paths = [];
+
+    for (let i = 0; i < items.length; i++) {
+        var item = items[i];
+        var entry = item.webkitGetAsEntry();
+
+        if (entry.isDirectory) {
+            await processDirectory(entry, path + entry.name + '/', fl_ls, file_paths);
+        }
+        if ((entry.isFile)) {
+            // console.log(entry.name)
+            let file = item.getAsFile();
+            // let file = item.getAsFile();
+            fl_ls.push(file);
+            file_paths.push(path + file.name);
+        }
+
+    }
+    return [fl_ls, file_paths]
+}
+
+async function processDirectory(directory, path, fl_ls, file_paths) {
+    let dirReader = directory.createReader();
+    let entries = await readEntriesAsync(dirReader);
+
+    for (let i = 0; i < entries.length; i++) {
+        entry = entries[i]
+        if (entry.isDirectory) {
+            await processDirectory(entry, path + entry.name + '/', fl_ls, file_paths);
+        } else {
+            let file = await getFileAsync(entry);
+            fl_ls.push(file);
+            file_paths.push(path + file.name);
+        }
+    }
+}
+
+function readEntriesAsync(dirReader) {
+    return new Promise((resolve, reject) => {
+        dirReader.readEntries(
+            (entries) => resolve(entries),
+            (error) => reject(error)
+        );
+    });
+}
+
+function getFileAsync(entry) {
+    return new Promise((resolve, reject) => {
+        entry.file(
+            (file) => resolve(file),
+            (error) => reject(error)
+        );
+    });
+}
+
+drop_area.addEventListener('drop', async function (e) {
     e.preventDefault();
-    var fileList = e.dataTransfer.files; // the files to be uploaded
-    if (fileList.length == 0) {
+    var fileList = e.dataTransfer.items; // the files to be uploaded
+    // console.log(fileList)
+    var fileList2 = e.dataTransfer.files; // the files to be uploaded
+    if (fileList.length == 0 || fileList2.length == 0) {
         return false;
     }
     ulnum = generateRandomString(32)
@@ -359,11 +419,64 @@ drop_area.addEventListener('drop', function (e) {
     // send files to server
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     var fd = new FormData();
-    for (let file of fileList) {
+
+    dropped_folder_ls = []
+    dropped_files_ls = []
+
+    for (i = 0; i < fileList.length; i++) {
+        f = fileList[i]
+        tmp = f.webkitGetAsEntry();
+        if (tmp.isDirectory) {
+            dropped_folder_ls.push([f]);
+        }
+        else {
+            dropped_files_ls.push([f]);
+        }
+    }
+
+    let files = [];
+    let file_paths = [];
+
+    let make_upload = false;
+    if ((dropped_files_ls.length !== 0 && dropped_folder_ls.length === 0) || (dropped_files_ls.length === 0 && dropped_folder_ls.length === 1)) {
+        make_upload = true;
+    }
+
+    if (!make_upload) {
+        document.getElementById('hiddenuploadinfobtn').click()
+        return false;
+    }
+
+    let is_folder = "false";
+    console.log(dropped_folder_ls.length)
+
+    if (dropped_folder_ls.length === 1) {
+        is_folder = "true";
+    }
+    else if (dropped_folder_ls.length === 0) {
+        is_folder = "false";
+    }
+
+
+    for (let folder of dropped_folder_ls) {
+        let [f_ls, fpath_ls] = await processItems(folder, '');
+        files.push(...f_ls);
+        file_paths.push(...fpath_ls);
+    }
+
+    for (let file of dropped_files_ls) {
+        let [f_ls, fpath_ls] = await processItems(file, '');
+        files.push(...f_ls);
+        file_paths.push(...fpath_ls);
+    }
+
+    for (let file of files) {
         fd.append('files', file);
     }
     lastTime = Date.now();
+    fd.append('file_paths', JSON.stringify(file_paths))
     fd.append('ulnum', ulnum)
+    fd.append('is_folder', is_folder)
     fd.append('parent_id', folderid())
     xhr.send(fd);
     // setInterval(function () {

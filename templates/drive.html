@@ -29,6 +29,47 @@
             </div>
         </div>
     </div>
+    <button id="hiddenuploadinfobtn" style="display: none;" type="button" data-bs-toggle="modal"
+        data-bs-target="#uploadinfo"></button>
+    <div class="modal fade" id="uploadinfo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="uploadinfolabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl bg-dark text-white">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header bg-dark text-white">
+                    <h1 class="modal-title fs-5" id="uploadinfolabel">Please make sure of the following while uploading:
+                    </h1>
+                    <button type="button" class="btn-close" onclick="window.location.reload();" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-dark text-white">
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item list-group-item-warning">You can upload only ONE folder at a time.
+                        </li>
+                        <li class="list-group-item list-group-item-warning">You cannot upload files and folders
+                            together.</li>
+                        <li class="list-group-item list-group-item-warning">You can upload multiple files together.</li>
+                    </ol>
+                    <br>
+                    For example, if you have to upload 3 files and 2 folders, your work flow will be like:
+                    <br>
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item list-group-item-info">Upload the three files together by dragging and
+                            dropping them.</li>
+                        <li class="list-group-item list-group-item-info">Upload the first folder by dragging and
+                            dropping it.</li>
+                        <li class="list-group-item list-group-item-info">Upload the second folder by dragging and
+                            dropping it.</li>
+                    </ol>
+                    <br>
+                    Note that there can be as many sub-folders and sub-files within the folder you upload.
+                </div>
+                <div class="modal-footer bg-dark text-white">
+                    <button type="button" class="btn btn-primary" onclick="window.location.reload();"
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="searchmodal" tabindex="-1" aria-labelledby="searchmodallabel" aria-hidden="true">
         <div class="modal-dialog modal-xl bg-dark text-white">
             <div class="modal-content bg-dark text-white">

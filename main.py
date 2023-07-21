@@ -4,6 +4,7 @@ from helpers.drive_util import SADrive
 from helpers.general import Generator,get_free_sa
 from helpers.utils import humanbytes
 import config
+import json
 import random
 import helpers.dbfuncs as dbf
 import os
@@ -134,32 +135,70 @@ class UploadThread(Thread):
         return self._return
 
 
+def get_parent_id_for_each_file_path(file_paths,main_id):
+    tmp_drive = SADrive(0)
+    ls = []
+    for i in file_paths:
+        parts = i.split('/')
+        _id = main_id
+        for j in parts[1:-1]:
+            folder_id = dbf.folder_exists(j,_id)
+            if folder_id:
+                _id = folder_id
+            else:
+                tmp_id = tmp_drive.create_folder(j,_id)
+                dbf.insert_file(tmp_id,j,_id,0,'folder',0,False)
+                _id = tmp_id
+        ls.append(_id)
+    return ls
+
 @app.route("/upload", methods=("POST",))
 @is_logged_in
 def upload():
     files = request.files.getlist("files")
+    file_paths = json.loads(request.form.get("file_paths"))
     parent_folder_id = request.form.get('parent_id')
-    # unique_ul_num = request.form.get('ulnum')
+    is_folder = request.form.get('is_folder')
+    print(f"{files=}")
+    print(f"{file_paths=}")
+    unique_ul_num = request.form.get('ulnum')
     if parent_folder_id == 'root':
         parent_folder_id = config.parent_id
     uled_file_details_ls = []
-    # with open(f'ProgressFiles\\{unique_ul_num}.json','w') as f:
-    #     f.write('{}')
+    # # with open(f'ProgressFiles\\{unique_ul_num}.json','w') as f:
+    # #     f.write('{}')
     threads = []
+    if is_folder == 'false':
+        for file in files:
+            t = UploadThread(target=upload_file,args=(file,parent_folder_id,))
+            threads.append(t)
+        
+        for x in threads:
+            x.start()
 
-    for file in files:
-        t = UploadThread(target=upload_file,args=(file,parent_folder_id,))
-        threads.append(t)
-    
-    for x in threads:
-        x.start()
+        # Wait for all of them to finish
+        for x in threads:
+            uled_file_details_ls.append(x.join())
+        
+        return jsonify(uled_file_details_ls)
+    elif is_folder == 'true':
+        tmp_drive = SADrive(0)
+        fol_name = file_paths[0].split('/')[0]
+        further_parent_id = tmp_drive.create_folder(fol_name,parent_folder_id)
+        dbf.insert_file(further_parent_id,fol_name,parent_folder_id,0,'folder',0,False)
+        parent_id_ls = get_parent_id_for_each_file_path(file_paths,further_parent_id)
+
+        for i in range(len(files)):
+            t = UploadThread(target=upload_file,args=(files[i],parent_id_ls[i],))
+            threads.append(t)
+        for x in threads:
+            x.start()
 
     # Wait for all of them to finish
     for x in threads:
         uled_file_details_ls.append(x.join())
     
     return jsonify(uled_file_details_ls)
-    # return "ok"
 
 
 def del_file(sa_num,file_id):

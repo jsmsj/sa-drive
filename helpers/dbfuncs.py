@@ -146,3 +146,11 @@ def space_details():
     available =  15784004812*len(ls)
     occupied = sum(ls)
     return occupied,available
+
+
+def folder_exists(name,parent_id):
+    t = file_map.find_one({'parent_id':parent_id,'file_name':name,'type':'folder'},{'_id':1})
+    if t:
+        return t['_id']
+    else:
+        return None
