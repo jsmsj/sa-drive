@@ -54,7 +54,7 @@ Hence you can effectively get 15\*12\*100 = 18000 GiB of storage, or `roughly 17
 
 ### TODO
 - [x] support uploading an entire folder, with subfolders and files
-- [ ] drag and grop anywhere to upload
+- [x] drag and grop anywhere to upload
 - [ ] view file (with video player if possible)
 - [ ] share/unshare selected=> navbar
 - [ ] rclone/gclone ul/dl

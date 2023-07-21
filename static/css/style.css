@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 
 * {
-  font-family: "DM Sans", sans-serif;
+    font-family: "DM Sans", sans-serif;
 }
 
 .list-group-item:hover {
@@ -62,4 +62,9 @@
     background-color: var(--ctxMenuHRColor) !important;
     color: var(--ctxMenuHRColor) !important;
     border: solid 1px var(--ctxMenuHRColor) !important;
+}
+
+.upload-dialog {
+    height: 100vw;
+    width: 100vw;
 }

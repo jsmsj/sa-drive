@@ -317,7 +317,42 @@ function generateRandomString(length) {
 
     return result;
 }
-var drop_area = document.getElementById('drop_area');
+// var drop_area = document.getElementById('drop_area');
+var drop_area = document.body
+
+function showuploadmodal(){
+    let m = document.getElementById('exampleModal');
+    m.classList.add('show');
+    m.style.display='block';
+    m.removeAttribute('aria-hidden');
+    m.setAttribute('aria-modal','true');
+    m.setAttribute('role','dialog');
+    document.body.style.overflow='hidden';
+    document.body.style.paddingRight='17px'
+    document.body.classList.add('modal-open');
+    ele = document.createElement('div');
+    ele.setAttribute('id','theexplicitshow')
+    ele.classList.add('modal-backdrop')
+    ele.classList.add('fade')
+    ele.classList.add('show')
+    document.body.appendChild(ele)
+}
+
+
+function hideuploadmodal(){
+    let m = document.getElementById('exampleModal');
+    m.classList.remove('show');
+    m.style.display='none';
+    m.setAttribute('aria-hidden','true');
+    m.removeAttribute('aria-modal');
+    m.removeAttribute('role');
+    document.body.style.removeProperty('overflow')
+    document.body.style.removeProperty('paddingRight')
+    document.body.classList.remove('modal-open');
+    ele = document.getElementById('theexplicitshow');
+    ele.remove()
+}
+
 
 async function processItems(items, path) {
     let fl_ls = [];
@@ -376,12 +411,21 @@ function getFileAsync(entry) {
     });
 }
 
+function drag_over(event) { 
+    event.preventDefault(); 
+    document.getElementById('upload-dialog-drag').style.display = "block";
+    return false; 
+} 
+
 drop_area.addEventListener('drop', async function (e) {
     e.preventDefault();
+    document.getElementById('upload-dialog-drag').style.display = "none";
+    showuploadmodal();
     var fileList = e.dataTransfer.items; // the files to be uploaded
     // console.log(fileList)
     var fileList2 = e.dataTransfer.files; // the files to be uploaded
     if (fileList.length == 0 || fileList2.length == 0) {
+        hideuploadmodal();
         return false;
     }
     ulnum = generateRandomString(32)
@@ -443,6 +487,7 @@ drop_area.addEventListener('drop', async function (e) {
     }
 
     if (!make_upload) {
+        hideuploadmodal();
         document.getElementById('hiddenuploadinfobtn').click()
         return false;
     }
@@ -510,6 +555,7 @@ drop_area.addEventListener('drop', async function (e) {
     // }, 5000);
 }, false);
 
+drop_area.addEventListener('dragover',drag_over,false); 
 
 function rightclickctxmenu(e, file_id) {
     e.preventDefault();
