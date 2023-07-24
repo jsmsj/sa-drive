@@ -38,6 +38,10 @@ Hence you can effectively get 15\*12\*100 = 18000 GiB of storage, or `roughly 17
 10. Run `pip install -r requirements.txt`
 11. Run `python main.py`
 
+## Got questions ?
+
+Read [FAQs.](./FAQ.md)
+
 ## Video Tutorial
 
 1. Generate service accounts using [Service Account Utility](./Service%20Account%20Utility/) - [Youtube](https://youtu.be/PlR6nXF7WNI)
