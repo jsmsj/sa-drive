@@ -32,7 +32,7 @@ Hence you can effectively get 15\*12\*100 = 18000 GiB of storage, or `roughly 17
 4. Go to your personal google drive, make a folder there named `sa-drive` or whatever you may like. Keep its folder id handy. Share this folder with the google group where your service accounts are there.
 5. Open [_config.py](./_config.py) using any text editor and paste in the folder id [from step 4] in the parent_id variable.
 6. Paste the mongodb uri [from step 3] in db_uri variable.
-7. Choose a suitable username and password. Save and exit.
+7. Choose a suitable username and password. RENAME IT TO `config.py` . Save and exit.
 8. Open command prompt in that folder.
 9. [OPTIONAL (but recommended)] Run `pip install virtualenv`. Then run `virtualenv venv`, `cd venv/Scripts`, `activate`, `cd ../..`
 10. Run `pip install -r requirements.txt`
