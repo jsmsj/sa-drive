@@ -16,7 +16,7 @@ This is best answered by [google itself](https://cloud.google.com/iam/docs/servi
 
 ## Can I use sa-drive with a VPN?
 
-Ideally you should but you might get ssl errors when creating service accounts using [Service Account Utility](./Service%20Account%20Utility/) or when running the sa-drive, the database migth give ssl errors.
+Ideally you should but you might get ssl errors when creating service accounts using [Service Account Utility](./Service%20Account%20Utility/) or when running the sa-drive, the database might give ssl errors.
 <br>
 Hence it is recommened to switch off the vpn.
 
