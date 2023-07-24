@@ -75,3 +75,20 @@ That is because the files are not actually being starred in Google Drive. The st
 
 I can make the files to be starred in google drive, but that would require additional setting up to do. 
 Kindly make an issue on github if you wish to have this feature.
+
+## What does SA index indicate?
+SA index indicates the filename of the service account.json file in the accounts folder.
+
+## What if I want to change the account with which I access `sa-drive`?
+
+You cannot. Only option is to disconned the `sa-drive`
+
+## What if I wish to disconnect `sa-drive` from my account?
+
+1. Delete the uploaded files [optional]
+2. Delete the service accounts from the project hompage in google cloud console [this should delete the files as well assuming they are not `shared with everyone`]
+3. Delete the google could project where your service accounts are made.
+
+## Would I risk corrupting `sa-drive` if I exceed my storage limit?
+
+Nope. The program will automatically give the error of storagequotaexceeded.
